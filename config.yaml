@@ -1,6 +1,6 @@
 ---
 name: Device Manager
-version: 1.0.22
+version: 1.0.19
 slug: device_manager
 description: A web interface for the device manager
 url: https://github.com/TISControlHass/TISDeviceManager
@@ -15,14 +15,8 @@ arch:
   - armv7
 init: false
 hassio_api: true
-ingress_stream: true
 schema:
   log_level: list(trace|debug|info|notice|warning|error|fatal)?
   upload_limit: int?
 ports:
   8000/tcp: 8000
-options:
-  log_level: debug
-ports_description:
-  8000/tcp: Web interface (not required for Home Assistant ingress)
-webui: http://[HOST]:[PORT:8000]
