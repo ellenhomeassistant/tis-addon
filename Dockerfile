@@ -55,16 +55,11 @@ RUN touch /laravel/database.sqlite
 RUN composer install
 
 # Run Laravel migrations and clear caches
-RUN php artisan cache:clear 
-RUN php artisan config:clear 
-RUN php artisan config:cache 
-RUN php artisan route:clear 
-RUN php artisan view:clear 
-RUN php artisan storage:link 
-RUN php artisan view:cache 
-RUN php artisan route:cache
-RUN php artisan migrate
-RUN php artisan db:seed
+RUN php artisan optimize:clear
+RUN php artisan optimize
+RUN php artisan view:cache
+RUN php artisan storage:link
+RUN php artisan migrate --seed
 
 # Expose port 8000 for the artisan server
 EXPOSE 8000
