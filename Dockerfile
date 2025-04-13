@@ -51,15 +51,29 @@ RUN rm -f -r /tmp/*
 # Create SQLite database file
 RUN touch /laravel/database.sqlite
 
+# Install Node.js and npm
+RUN apk add --update --no-cache nodejs npm
+
 # Install Laravel dependencies
 RUN composer install
 
+# Install npm dependencies and build assets
+WORKDIR /laravel
+RUN npm install
+RUN npm run build
+
 # Run Laravel migrations and clear caches
-RUN php artisan optimize:clear
 RUN php artisan optimize
-RUN php artisan view:cache
-RUN php artisan storage:link
-RUN php artisan migrate --seed
+RUN php artisan cache:clear 
+RUN php artisan config:clear 
+RUN php artisan config:cache 
+RUN php artisan route:clear 
+RUN php artisan view:clear 
+RUN php artisan storage:link 
+RUN php artisan view:cache 
+RUN php artisan route:cache
+RUN php artisan migrate
+RUN php artisan db:seed
 
 # Expose port 8000 for the artisan server
 EXPOSE 8000
