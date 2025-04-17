@@ -20,3 +20,5 @@ schema:
   upload_limit: int?
 ports:
   8000/tcp: 8000
+map:
+  - data:rw

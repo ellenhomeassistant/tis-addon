@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
+# Create data directory if it doesn't exist
+mkdir -p /data
+
 # Debugging: Output environment variables
 echo "Environment variables:"
 echo "INGRESS_URL: $INGRESS_URL"
@@ -28,8 +31,22 @@ else
     echo "No INGRESS_URL provided, using default settings"
 fi
 
-# Run database migrations if needed
-php /laravel/artisan migrate --force
+# Check if database exists, create if not
+if [ ! -f /data/database.sqlite ]; then
+    touch /data/database.sqlite
+    # Set proper permissions
+    chmod 777 /data/database.sqlite
+fi
+
+# Create symbolic link to the persistent database
+ln -sf /data/database.sqlite /laravel/database.sqlite
+
+# Run migrations if database is new or on first run
+if [ ! -f /data/db_initialized ]; then
+    php /laravel/artisan migrate --force
+    php /laravel/artisan db:seed --force
+    touch /data/db_initialized
+fi
 
 # Clear all caches to ensure new settings are applied
 php /laravel/artisan optimize

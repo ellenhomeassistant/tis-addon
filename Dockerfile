@@ -48,9 +48,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Remove temporary files
 RUN rm -f -r /tmp/*
 
-# Create SQLite database file
-RUN touch /laravel/database.sqlite
-
 # Install Node.js and npm
 RUN apk add --update --no-cache nodejs npm
 
@@ -72,8 +69,6 @@ RUN php artisan view:clear
 RUN php artisan storage:link 
 RUN php artisan view:cache 
 RUN php artisan route:cache
-RUN php artisan migrate
-RUN php artisan db:seed
 
 # Expose port 8000 for the artisan server
 EXPOSE 8000
