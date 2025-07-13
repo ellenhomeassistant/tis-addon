@@ -1,6 +1,6 @@
 ---
 name: Device Manager
-version: 1.2.6
+version: 1.2.7
 slug: device_manager
 description: A web interface for the device manager
 url: https://github.com/TISControlHass/TISDeviceManager
